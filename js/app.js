@@ -4,7 +4,7 @@
 
 let allCardsClosed = document.querySelectorAll('.card');
 let allCardsClosedArray = [...allCardsClosed];
-console.log(allCardsClosedArray);
+//console.log(allCardsClosedArray);
 
 
 /*
@@ -31,18 +31,25 @@ function shuffle(array) {
 
 //console.log(shuffle(allCardsClosedArray));
 
-
+ /*function () {
+    var x = document.querySelector('.moves');
+    document.querySelector('.moves').innerHTML = Number(x.innerHTML) + 1;
+};
 /* 
- * Restart button, cards all have the same class .card, no .show and no .open
+ * Restart button
  */
-
+// This function removes the classes .show .open and .match all cards only have class .card
 function restartGame (array) {
 	for (const element of array) {
-		element.classList.remove('show', 'open','match');
+		element.classList.remove('open', 'show', 'match');
+
 	}
+	console.log(allCardsClosedArray);
 }
-restartGame(allCardsClosedArray);
-shuffle(allCardsClosedArray);
+//console.log(restartGame(allCardsClosedArray));
+//shuffle(allCardsClosedArray);
+
+document.querySelector('.fa-repeat').addEventListener('click', restartGame(allCardsClosedArray));
 
 /*
  * Event listener for the restart button
@@ -129,9 +136,17 @@ function checkLength (array) {
 }
 //checkLength(openCards);
 
+/* 
+ * Create move counter
+ */	
+// each time a different card is clicked, counter +1
 
-		
- 
+document.querySelector('.card').addEventListener('click', function () {
+    var x = document.querySelector('.moves');
+    document.querySelector('.moves').innerHTML = Number(x.innerHTML) + 1;
+});
+
+
 
  /*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  	// The move counter must +1 every time a new card is clicked on
@@ -148,7 +163,7 @@ function allCardsMatch (array) {
 
 /* 
  * Create a timer
- *
+ */
 
 
 var timer = new Timer();
@@ -158,8 +173,8 @@ timer.addEventListener('secondsUpdated', function (e) {
 });
 
 /* 
- * Create move counter
- */
+ * Create a timer
+ *
 
 /*function addUp() {
     var x = document.querySelector('.moves');
