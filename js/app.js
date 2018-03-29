@@ -1,13 +1,10 @@
 /*
- * Create a list that holds all of your cards
+ * Create a list that holds all cards 
  */
 
-
-
-
-
-//let cards = [...card];
-//console.log(card);
+let allCardsClosed = document.querySelectorAll('.card');
+let allCardsClosedArray = [...allCardsClosed];
+console.log(allCardsClosedArray);
 
 
 /*
@@ -32,17 +29,27 @@ function shuffle(array) {
     return array;
 }
 
+//console.log(shuffle(allCardsClosedArray));
 
 
 /* 
- * Start game, cards all closed
- *
+ * Restart button, cards all have the same class .card, no .show and no .open
+ */
 
-document.addEventListener('click', function () {
-	cards = shuffle(cards);
-	cards.classList.remove('open');
+function restartGame (array) {
+	for (const element of array) {
+		element.classList.remove('show', 'open','match');
+	}
+}
+restartGame(allCardsClosedArray);
+shuffle(allCardsClosedArray);
 
-});
+/*
+ * Event listener for the restart button
+ */
+
+//const restartButton = document.querySelectorAll('.fa fa-repeat');
+//restartButton.addEventListener('click', restartGame(allCardsClosedArray));
 
 
 /*
@@ -78,61 +85,66 @@ let matchedCards = [];
  	console.log(currentcard); //print die huidige card
  	console.log(openCards); //print die lys met die huidige card by
  }
- displayCardSymbol(card);
- displayCardSymbol(secondCard);
+ //displayCardSymbol(card);
+ //displayCardSymbol(secondCard);
  
+
+function cardsDoMatch (array) {
+ 	// Remove className open and show from each list item and add match. 
+ 	// remove from openCards array and add to matchedCards array
+			 	for (const card of array) {
+			 		card.classList.remove('show', 'open');
+			 		card.classList.add('match');
+			 		openCards = [] //reset opnCards weer na empty
+			 		matchedCards.push(card); //sit 2 matched kaarte in matchedCards array
+			 		console.log(matchedCards);
+			 	}
+			 }
+
+function cardsDoNotMatch (array) {
+ 	// Remove className open and show from each list item. 
+ 	// Remove from openCards list
+			 	for (const card of array) {
+			 		card.classList.remove('show', 'open');
+			 		openCards = [];
+			 	}
+			 }
 
  /*  - if the list already has another card, check to see if the two cards match
 	//check list openCards' length, if =2, 
 	//if 2, compare types/list element e.g. diamond, bolt. array[0] === [1] ? */
 function checkLength (array) {
 	if (array.length === 2) {
-		console.log(array);
+		/*+ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)*/
 		if (array[0].getAttribute("type") === (array[1]).getAttribute("type")) {
-			console.log("A match!");
+			console.log("A match!"); 
+			cardsDoMatch(openCards);
 
 		} else {
+			/* + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)*/
 			console.log("Not a match");
+			cardsDoNotMatch(openCards);
 		}
 	}
 }
-checkLength(openCards);
+//checkLength(openCards);
 
-	//for (let arrayItem of array) {
+
 		
- /*    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)*/
-  function cardsDoMatch (array) {
- 	// Remove className open and show from each list item and add match. 
- 	// remove from openCards array and add to matchedCards array
- 	for (const card of array) {
- 		card.classList.remove('show', 'open');
- 		card.classList.add('match');
- 		openCards = [] //reset opnCards weer na empty
- 		matchedCards.push(card); //sit 2 matched kaarte in matchedCards array
- 		console.log(matchedCards);
- 	}
- }
- //cardsDoMatch(openCards);
- /*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)*/
- function cardsDoNotMatch (array) {
- 	// Remove className open and show from each list item. 
- 	// Remove from openCards list
- 	for (const card of array) {
- 		card.classList.remove('show', 'open');
- 		openCards = [];
- 	}
- }
- //cardsDoMatch(openCards);
-
-
  
 
  /*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  	// The move counter must +1 every time a new card is clicked on
 
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-
- */
+ /*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)*/
+function allCardsMatch (array) {
+	if (array.length === 16) {
+		console.log("All cards are matched, congradulations!");
+	}
+}
+ /*/
+}
+}
 
 /* 
  * Create a timer

@@ -1,7 +1,7 @@
 function checkLength (array) {
 	if (array.length === 2) {
 		console.log(array);
-		if (array[0].outerHTML === (array[1]).outerHTML) {
+		if (array[0].getAttribute("type") === (array[1]).getAttribute("type")) {
 			console.log("A match!");
 
 		} else {
@@ -25,7 +25,7 @@ checkLength(openCards);
  		console.log(matchedCards);
  	}
  }
- cardsDoMatch(openCards);
+ //cardsDoMatch(openCards);
  /*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)*/
  function cardsDoNotMatch (array) {
  	// Remove className open and show from each list item. 
@@ -35,4 +35,4 @@ checkLength(openCards);
  		openCards = [];
  	}
  }
- cardsDoMatch(openCards);
+ //cardsDoMatch(openCards);
