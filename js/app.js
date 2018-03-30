@@ -1,10 +1,93 @@
+
+//Create a timer
+
+var clock; 
+var currentcard;
+var secCounter = 0;
+function startTimer() {
+	clock= setInterval(elapsedTime,1000);
+}
+//startTimer()
+
+function stopTimer() {
+	clearInterval(clock);
+}
+
+function elapsedTime() {
+	secCounter++;
+	//console.log(secCounter);
+	document.getElementById('seconds').innerText = secCounter;
+}
+
+function resetTimer() {
+	secCounter = 0;
+}
+
+//mainGameLogic function
+
+function mainGameLogic() {
+	if (secCounter > 0) {
+		console.log('timer has already started');
+	} else {
+		console.log('timer started')
+		startTimer();
+	}
+	console.log(currentcard);
+// True = check if card is valid to click on
+	if (checkIfCardClickedOnIsValid() === true) {
+		console.log('valid');
+		//log click counter
+		logClickCounter()
+	} else {
+		console.log('invalid')
+		// invalid move do nothing
+	}
+}
+
+// create log click counter function
+
+function logClickCounter() {
+    var x = document.querySelector('.moves'); 
+    x.innerText=Number(x.innerText) + 1;
+    //;
+}
+
+
+
+
+// create function to check if the card clicked on is a valid one
+
+function checkIfCardClickedOnIsValid() {
+	if(currentcard.classList.contains("open")) {
+		console.log('open false')
+		//do not allow click, invalid move
+		return false;
+	} else if (currentcard.classList.contains("show")) {
+		console.log('show false')
+		return false;
+	} else if (currentcard.classList.contains("match")) {
+		console.log('match false')
+		return false;
+	} else if (currentcard.classList.contains("wrong")) {
+		console.log('wrong false')
+		return false;
+	} else {
+		//valid move
+		console.log('true')
+		return true;
+	}
+}
+
 /*
  * Create a list that holds all cards 
  */
 
 let allCardsClosed = document.querySelectorAll('.card');
 let allCardsClosedArray = [...allCardsClosed];
-//console.log(allCardsClosedArray);
+
+//set variable for click counter
+//let clickCounter = querySelector('.moves')
+clickCounter = 0
 
 
 /*
@@ -48,12 +131,12 @@ function restartGame (array) {
 }
 //console.log(restartGame(allCardsClosedArray));
 //shuffle(allCardsClosedArray);
-restartGame(allCardsClosedArray);
+//restartGame(allCardsClosedArray);
 //document.querySelector('.restart').addEventListener('click', restartGame(allCardsClosedArray)); //werk nie
 
-//let card = document.getElementById('toets');
-//let secondCard = document.getElementById('toets2');
+// create empty array to store which cards are opened
 let openCards = [];
+// create empty array to store which cards are already matched
 let matchedCards = [];
 
 
@@ -71,35 +154,65 @@ let matchedCards = [];
 
 
 
+//function to create a wait
+function wait(ms){
+var start = new Date().getTime();
+var end = start;
+while(end < start + ms) {
+end = new Date().getTime();
+}
+}
 
 
 
-
-
- 
+ //when cards match
 
 function cardsDoMatch (array) {
  	// Remove className open and show from each list item and add match. 
  	// remove from openCards array and add to matchedCards array
- 				console.log("A match!"); 
-				for (const card of array) {
-			 		card.classList.remove('show', 'open');
-			 		card.classList.add('match');
-			 		openCards = [] //reset opnCards weer na empty
-			 		matchedCards.push(card); //sit 2 matched kaarte in matchedCards array
-			 		console.log(matchedCards);
-			 	}
-			 }
+ 				
+	for (const card of array) {
+		card.classList.remove('show', 'open');
+		card.classList.add('match');
+		openCards = [] //reset openCards weer na empty
+		matchedCards.push(card); //sit 2 matched kaarte in matchedCards array
+		console.log(matchedCards);
+		console.log('twee is nou matched');
+	}
+}
+
+//when cards do not match
 
 function cardsDoNotMatch (array) {
+
  	// Remove className open and show from each list item. 
  	// Remove from openCards list
- 	console.log("Not a match");
-		for (const card of array) {
-			 card.classList.remove('show', 'open');
-			 openCards = [];
+	for (const card of array) {
+		card.classList.add("wrong");
+
+		card.classList.remove("wrong", "show", "open")
+	}
+	wait(2000);
+	
+	//backToPlay(allCardsClosedArray);
+	
+} 
+
+//function to check if the two cards in openCards do match
+function checkMatch (array) {
+		/*+ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)*/
+		if (array[0].outerHTML === array[1].outerHTML) {
+			cardsDoMatch(openCards);
+			console.log("A match!"); 
+
+		} else {
+			/* + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)*/
+			console.log("Not a match, rooi");
+			cardsDoNotMatch(openCards);
 		}
-}
+
+	}
+
 
  /*  - if the list already has another card, check to see if the two cards match
 	//check list openCards' length, if =2, 
@@ -107,16 +220,11 @@ function cardsDoNotMatch (array) {
 function checkLength (array) {
 	console.log(openCards.length);
 	if (array.length < 2) {
-		console.log('nog nie 2 nie');
-	} else if (array.length === 2) {
-		/*+ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)*/
-		if (array[0].outerHTML === array[1].outerHTML) {
-			cardsDoMatch(openCards);
+		console.log('nog nie 2 nie. run weer...');
 
-		} else {
-			/* + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)*/
-			cardsDoNotMatch(openCards);
-		}
+	} else if (openCards.length === 2) {
+		console.log('Het nou 2');
+		checkMatch(openCards);
 
 	}
 }
@@ -124,38 +232,36 @@ function checkLength (array) {
 
  /*  - display the card's symbol (put this functionality in another function that you call from this one)*/
 
- function displayCardSymbol (current) {
+ function displayCardSymbol (array) {
  	// Display must add the .open class and the .show class to the list element. (The current card we clicked on) This function will take the card as an imput parameter, 
  	//it will find / access it's class element and set it to class="card open show".
- 	//className
- 	current.classList.add('show', 'open')
- 	 /*  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)*/
- 	// try to add the current card to a list of open cards.
- 		openCards.push(current);
- 		checkLength(openCards);
- 	//console.log(current); //print die huidige card
- 	//console.log(openCards); //print die lys met die huidige card by
+ 	for (const card of array) {
+ 		card.classList.add('show', 'open');
+ 		console.log('nou wys die kaart blou');
+ 	}
+ 	checkLength(openCards);
  }
-
- //displayCardSymbol(card);
- //displayCardSymbol(secondCard);
 
  /* set up the event listener for a card. If a card is clicked:*/
 
-function cardClicked () {
+function setUpEventListenerForCards () {
+
 	 for(const i of allCardsClosedArray){ 
 		i.addEventListener('click', function () { 
 		//alert('hello'); 
 			console.log('click');
-			console.log(openCards);
-			displayCardSymbol(i);
-			
+			console.log(i)
+/*  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)*/
+			currentcard  = i;
+			mainGameLogic()
+			currentcard = 0;
 		}, false); 
 
 	}	
 
 }
-cardClicked();
+// this sets up event listeners on the page, always needs to be hear
+setUpEventListenerForCards();
 
 
 
@@ -170,13 +276,13 @@ cardClicked();
 });
 */
 
-
-for(var i=0; i < allCardsClosedArray.length; i++){ 
+//DIT WERK!!!
+/*for(var i=0; i < allCardsClosedArray.length; i++){ 
 	allCardsClosedArray[i].addEventListener('click', function () { 
 		//alert('hello'); 
-		console.log('A card was clicked');
+		//console.log('A card was clicked');
 	}, false); 
-}
+}*/
 
  /*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  	// The move counter must +1 every time a new card is clicked on
@@ -193,11 +299,6 @@ function allCardsMatch (array) {
 
 
 
-
-
-/* 
- * Create a timer
- */
 
 
 
