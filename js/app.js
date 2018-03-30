@@ -1,13 +1,14 @@
-
-//Create a timer
-
+// global variables
 var clock; 
 var currentcard;
 var secCounter = 0;
+let movesMade;
+let star;
+//Create a timer
+
 function startTimer() {
 	clock= setInterval(elapsedTime,1000);
 }
-//startTimer()
 
 function stopTimer() {
 	clearInterval(clock);
@@ -38,17 +39,44 @@ function mainGameLogic() {
 		console.log('valid');
 		//log click counter
 		logClickCounter()
+		//update the stars
+		updateStarCounter()
 	} else {
 		console.log('invalid')
 		// invalid move do nothing
 	}
 }
+// create a function to update the star counter
+function updateStarCounter() {
+	// when moves counter reaches 10, one star is removed
+	if (Number(movesMade.innerText) === 10) {
+		let star = document.querySelector('#star-one').classList.add('none');
+		//console.log(star);
+		//console.log('1 star now not visible')
+	} 
+	// when moves counter reaches 19, two stars are removed
+	if (Number(movesMade.innerText) === 19) {
+		let star = document.querySelector('#star-two').classList.add('none');
+		//console.log(star);
+		//console.log('2 stars now not visible')
+	} 
+	// when moves counter reaches 25, three stars are removed
+	if (Number(movesMade.innerText) === 25) {
+		let star = document.querySelector('#star-three').classList.add('none');
+		//console.log(star);
+		//console.log('3 stars now not visible')
+	} 
+}
+
+
+
 
 // create log click counter function
 
 function logClickCounter() {
-    var x = document.querySelector('.moves'); 
-    x.innerText=Number(x.innerText) + 1;
+    movesMade = document.querySelector('.moves'); 
+    movesMade.innerText=Number(movesMade.innerText) + 1;
+    console.log(movesMade);
     //;
 }
 
@@ -63,17 +91,13 @@ function checkIfCardClickedOnIsValid() {
 		//do not allow click, invalid move
 		return false;
 	} else if (currentcard.classList.contains("show")) {
-		console.log('show false')
 		return false;
 	} else if (currentcard.classList.contains("match")) {
-		console.log('match false')
 		return false;
 	} else if (currentcard.classList.contains("wrong")) {
-		console.log('wrong false')
 		return false;
 	} else {
 		//valid move
-		console.log('true')
 		return true;
 	}
 }

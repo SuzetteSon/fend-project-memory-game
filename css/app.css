@@ -116,3 +116,6 @@ h1 {
     cursor: pointer;
 }
 
+.score-panel .stars li .none {
+    display: none;
+}
