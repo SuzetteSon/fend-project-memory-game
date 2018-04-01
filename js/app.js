@@ -66,7 +66,7 @@ function mainGameLogic() {
 				//if not a match, display as wrong
 				updateDisplayWrong();
 				//wag 2 seconds voor cards close
-				setTimeout(updateDisplayClosed, 2000);
+				setTimeout(updateDisplayClosed, 1000);
 			}
 		} else {
 			//display the card as open
@@ -77,11 +77,6 @@ function mainGameLogic() {
 		console.log('invalid')
 		// invalid move do nothing
 	}
-}
-
-//function to empty the openCards array
-function emptyOpenCardsArray () {
-
 }
 
 //function to check the winning condition
@@ -189,6 +184,12 @@ function updateStarCounter() {
 		//console.log(star);
 		//console.log('3 stars now not visible')
 	} 
+	//when moves counter is zero, all stars should be shown
+	if (Number(movesMade.innerText) === 0) {
+		document.querySelector('#star-one').classList.remove('none');
+		document.querySelector('#star-two').classList.remove('none');
+		document.querySelector('#star-three').classList.remove('none');
+	}
 }
 
 // create log click counter function
@@ -204,7 +205,6 @@ function logClickCounter() {
 
 function checkIfCardClickedOnIsValid() {
 	if(currentcard.classList.contains("open")) {
-		console.log('open false')
 		//do not allow click, invalid move
 		return false;
 	} else if (currentcard.classList.contains("show")) {
@@ -221,10 +221,10 @@ function checkIfCardClickedOnIsValid() {
  /* set up the event listener for a card. If a card is clicked:*/
 
 function setUpEventListenerForCards () {
-
-	 for(const i of allCardsClosedArray){ 
+	//shuffle as soon as js is run
+	shuffle(allCardsClosedArray);
+	for(const i of allCardsClosedArray){ 
 		i.addEventListener('click', function () { 
-		//alert('hello'); 
 			console.log('click');
 			console.log(i)
 /*  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)*/
@@ -236,8 +236,9 @@ function setUpEventListenerForCards () {
 	}	
 
 }
-// this sets up event listeners on the page, always needs to be hear
+// this sets up event listeners on the page
 setUpEventListenerForCards();
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -246,7 +247,7 @@ setUpEventListenerForCards();
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
+/*function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -258,177 +259,47 @@ function shuffle(array) {
     }
 
     return array;
+}*/
+
+
+function shuffle(){
+	var ul = document.querySelector('.deck');
+	console.log(ul);
+	for (var i = ul.children.length; i >= 0; i--) {
+    	ul.appendChild(ul.children[Math.random() * i | 0]);
+	}
+	console.log(ul);
+
 }
 
-//console.log(shuffle(allCardsClosedArray));
 
- /*function () {
-    var x = document.querySelector('.moves');
-    document.querySelector('.moves').innerHTML = Number(x.innerHTML) + 1;
-};
 /* 
  * Restart button
  */
 // This function removes the classes .show .open and .match all cards only have class .card
-function restartGame (array) {
-	for (const element of array) {
-		element.classList.remove('open', 'show', 'match');
-
+function restartGame () {
+	//display all cards in closed condition
+	for (const element of allCardsClosedArray) {
+		element.classList.remove('open', 'show', 'match', 'wrong');
+		console.log('all cards now closed');
 	}
-	//console.log(allCardsClosedArray);
-}
-//console.log(restartGame(allCardsClosedArray));
-//shuffle(allCardsClosedArray);
-//restartGame(allCardsClosedArray);
-//document.querySelector('.restart').addEventListener('click', restartGame(allCardsClosedArray)); //werk nie
-
-;
-
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */ 
-
-
-
-//function to create a wait
-function wait(ms){
-	var start = new Date().getTime();
-	var end = start;
-	while(end < start + ms) {
-		end = new Date().getTime();
-	}
+	//empty the openCards array
+	openCards = []
+	//stop the timer and set to zero
+	stopTimer();
+	console.log('stopped timer');
+	resetTimer();
+	//reset seconds to zero
+	document.querySelector('#seconds').innerText = '00';
+	//reset moves made to zero
+	document.querySelector('.moves').innerText = '0';
+	//reset star rating back to three stars
+	updateStarCounter();
+	shuffle(allCardsClosedArray);
 }
 
 
 
- //when cards match
-
-function cardsDoMatch (array) {
- 	// Remove className open and show from each list item and add match. 
- 	// remove from openCards array and add to matchedCards array
- 				
-	for (const card of array) {
-		card.classList.remove('show', 'open');
-		card.classList.add('match');
-		openCards = [] //reset openCards weer na empty
-		matchedCards.push(card); //sit 2 matched kaarte in matchedCards array
-		console.log(matchedCards);
-		console.log('twee is nou matched');
-	}
-}
-
-//when cards do not match
-
-function cardsDoNotMatch (array) {
-
- 	// Remove className open and show from each list item. 
- 	// Remove from openCards list
-	for (const card of array) {
-		card.classList.add("wrong");
-
-		card.classList.remove("wrong", "show", "open")
-	}
-	wait(2000);
-	
-	//backToPlay(allCardsClosedArray);
-	
-} 
-
-//function to check if the two cards in openCards do match
-function checkMatch (array) {
-		/*+ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)*/
-		if (array[0].outerHTML === array[1].outerHTML) {
-
-		} else {
-			/* + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)*/
-		}
-
-	}
 
 
- /*  - if the list already has another card, check to see if the two cards match
-	//check list openCards' length, if =2, 
-	//if 2, compare types/list element e.g. diamond, bolt. array[0] === [1] ? */
-function checkLength (array) {
-	console.log(openCards.length);
-	if (array.length < 2) {
-		console.log('nog nie 2 nie. run weer...');
-
-	} else if (openCards.length === 2) {
-		console.log('Het nou 2');
-		checkMatch(openCards);
-
-	}
-}
-//checkLength(openCards);
-
- /*  - display the card's symbol (put this functionality in another function that you call from this one)*/
-
- function displayCardSymbol (array) {
- 	// Display must add the .open class and the .show class to the list element. (The current card we clicked on) This function will take the card as an imput parameter, 
- 	//it will find / access it's class element and set it to class="card open show".
- 	for (const card of array) {
- 		card.classList.add('show', 'open');
- 		console.log('nou wys die kaart blou');
- 	}
- 	checkLength(openCards);
- }
-
-
-
-
-
-/* 
- * Create move counter
- */	
-// each time a different card is clicked, counter +1
-
-/*document.querySelector('.card').addEventListener('click', function () {
-    var x = document.querySelector('.moves');
-    document.querySelector('.moves').innerHTML = Number(x.innerHTML) + 1;
-});
-*/
-
-//DIT WERK!!!
-/*for(var i=0; i < allCardsClosedArray.length; i++){ 
-	allCardsClosedArray[i].addEventListener('click', function () { 
-		//alert('hello'); 
-		//console.log('A card was clicked');
-	}, false); 
-}*/
-
- /*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- 	// The move counter must +1 every time a new card is clicked on
-
- /*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)*/
-function allCardsMatch (array) {
-	if (array.length === 16) {
-		console.log("All cards are matched, congradulations!");
-	}
-}
- /*/
-}
-}/*
-
-
-
-
-
-
-
-/*function addUp() {
-    var x = document.querySelector('.moves');
-    document.querySelector('.moves').innerHTML = Number(x.innerHTML) + 1;
-}
-// const moves = document.querySelectorAll('.card');
-moves.addEventListener('click', addUp, false);*/
                 
