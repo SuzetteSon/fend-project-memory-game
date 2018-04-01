@@ -298,8 +298,35 @@ function restartGame () {
 	shuffle(allCardsClosedArray);
 }
 
+//function for modal pop-up
 
+function overlay() {
+	el = document.getElementById("overlay");
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+	mm = document.getElementById("modal-message");
+	mm.innerText = ("Congradulations, you won! You have a rating of " + howManyStars() + ". Your time is " 
+	+ secCounter + " seconds");
+}
 
+function closeOverlay () {
+	el = document.getElementById("overlay");
+	el.style.visibility = "hidden";
+}
 
+//variable for amount of stars left.
+function howManyStars () {
+	if (Number(movesMade.innerText) < 10) {
+		return "3 star"
+	} 
+	if (Number(movesMade.innerText) >9 && Number(movesMade.innerText) < 19 ) {
+		return "2 star"
+	} 
+	if (Number(movesMade.innerText) >18  && Number(movesMade.innerText) < 26) {
+		return "1 star"
+	} 
+	if (Number(movesMade.innerText) >25) {
+		return "0 star"
+	} 
+}
 
                 

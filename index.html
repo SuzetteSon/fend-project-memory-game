@@ -87,7 +87,15 @@
             </li>
         </ul>
     </div>
-    
+
+    <div id="overlay">
+         <div>
+              <p id="modal-message">Message</p>
+              <button><a href="#" onclick="restartGame();closeOverlay()">Play again!</a></button>
+              <button><a href="#" onclick="restartGame()">Close</a></button>
+         </div>
+    </div>
+    <a href='#' onclick='overlay()'>Click here to show the overlay</a>
     <script src="js/app.js"></script>
 </body>
 </html>
