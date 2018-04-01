@@ -60,6 +60,8 @@ function mainGameLogic() {
 				updateDisplayMatch();
 				//add the 2 cards from openCards to MatchedCardsList and remove from OpenCards
 				addCardsToMatchedCardsList();
+				//check if the game is won
+				checkWinningCondition ()
 			} else {
 				//if not a match, display as wrong
 				updateDisplayWrong();
@@ -71,12 +73,28 @@ function mainGameLogic() {
 			console.log('nog net 1 card');
 			updateDisplayOpen();
 		}
-
 	} else {
 		console.log('invalid')
 		// invalid move do nothing
 	}
 }
+
+//function to empty the openCards array
+function emptyOpenCardsArray () {
+
+}
+
+//function to check the winning condition
+function checkWinningCondition () {
+	if (matchedCards.length === 16) {
+		console.log('wen!');
+		return true;
+	} else {
+		console.log('nog nie wen nie');
+		return false;
+	}
+}
+
 //function to add cards that match from openCards to matchedCards array
 function addCardsToMatchedCardsList () {
 	for (const q of openCards) {
@@ -128,6 +146,9 @@ function updateDisplayClosed () {
 		c.classList.remove('wrong', 'show', 'open');
  		console.log('card closed');
 	}	
+	//remove cards from openCards List
+	openCards = [];
+	console.log(openCards);
 }
 
 
