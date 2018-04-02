@@ -14,8 +14,44 @@ let matchedCards = []
 /*
  * Timer functionality 
  */
+var secCounter = 0;
+var clock = 0; 
+var minCounter = 0;
 
-var h1 = document.getElementsByTagName('h1')[0],
+
+
+function clockDisplay() {
+
+}
+
+function startTimer() {
+	console.log('timer starting');
+	clock= setInterval(elapsedTime,1000);
+}
+
+function stopTimer() {
+	clearInterval(clock);
+}
+
+function elapsedTime() {
+	secCounter++;
+	if (secCounter >= 60) {
+        secCounter = 0;
+        minCounter++;
+    }
+	//console.log(secCounter);
+	let secDisplay = '0'+secCounter;
+	let minDisplay = '0'+minCounter;
+	document.getElementById('seconds').innerText = secDisplay.slice(-2);
+	document.getElementById('minutes').innerText = minDisplay.slice(-2);
+}
+
+function resetTimer() {
+	secCounter = 0;
+	document.getElementById('seconds').innerText = '00';
+	document.getElementById('minutes').innerText = '00';	
+}
+/*var h1 = document.getElementsByTagName('h1')[0],
     start = document.getElementById('start'),
     stop = document.getElementById('stop'),
     clear = document.getElementById('clear'),
@@ -50,7 +86,7 @@ function stopTimer() {
 function resetTimer() {
     h1.textContent = "00:00:00";
     seconds = 0; minutes = 0; hours = 0;
-}
+}*/
 
 /*
  * mainGameLogic function 
@@ -58,11 +94,11 @@ function resetTimer() {
 
 
 function mainGameLogic() {
-	if (seconds > 0) {
+	if (secCounter > 0) {
 		console.log('timer has already started');
 	} else {
 		console.log('timer started')
-		timer();
+		startTimer();
 	}
 	console.log(currentcard);
 // True = check if card is valid to click on
@@ -88,7 +124,9 @@ function mainGameLogic() {
 				//if not a match, display as wrong
 				updateDisplayWrong();
 				//wag 2 seconds voor cards close
-				setTimeout(updateDisplayClosed, 1000);
+				//TODO add delay
+				//setTimeout(updateDisplayClosed,1000);
+				//updateDisplayClosed();
 			}
 		} else {
 			//display the card as open
@@ -105,7 +143,7 @@ function mainGameLogic() {
 function checkWinningCondition () {
 	if (matchedCards.length === 16) {
 		console.log('wen!');
-		return true;
+		overlay();
 	} else {
 		console.log('nog nie wen nie');
 		return false;
@@ -154,19 +192,26 @@ function updateDisplayMatch () {
 function updateDisplayWrong () {
 	for (const w of openCards) {
 		w.classList.add('wrong', 'show');
- 		console.log('cards wrong');
-	}	
+ 	}
+ 	console.log('cards wrong');
+ 	setTimeout(function(){
+ 		for (const r of openCards) {
+ 			r.classList.remove('wrong', 'show', 'open');
+ 		}
+	openCards = [];
+	},1100)
 }
 //display closed cards
-function updateDisplayClosed () {
+/*function updateDisplayClosed () {
 	for (const c of openCards) {
 		c.classList.remove('wrong', 'show', 'open');
+		c.classList.add('closed');
  		console.log('card closed');
 	}	
 	//remove cards from openCards List
 	openCards = [];
 	console.log(openCards);
-}
+}*/
 
 
 //function to add clicked card to clicked cards list
@@ -179,10 +224,8 @@ function addClickedCardToOpenCardsList () {
 function checkIf2CardsInOpenCardsList () {
 	if (openCards.length === 2) {
 		return true;
-		console.log('2 cards in openCards');
 	} else {
 		return false;
-		//console.log('nog nie 2 nie');
 	}
 }
 
@@ -276,7 +319,7 @@ function shuffle(){
 /* 
  * Restart button
  */
- 
+
 // This function removes the classes .show .open and .match all cards only have class .card
 function restartGame () {
 	//display all cards in closed condition
@@ -288,11 +331,7 @@ function restartGame () {
 	openCards = []
 	//stop the timer and set to zero
 	stopTimer();
-	console.log('stopped timer');
 	resetTimer();
-	//reset seconds to zero
-	resetTimer();
-	//reset moves made to zero
 	document.querySelector('.moves').innerText = '0';
 	//reset star rating back to three stars
 	updateStarCounter();
@@ -305,8 +344,8 @@ function overlay() {
 	el = document.getElementById("overlay");
 	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
 	mm = document.getElementById("modal-message");
-	mm.innerText = ("Congradulations, you won! You have a rating of " + howManyStars() + ". Your time is " 
-	+ secCounter + " seconds");
+	mm.innerText = ("Congradulations, you won! You have a rating of " 
+		+ howManyStars() + ". Your time is " +minCounter+ ":" +secCounter+".");
 }
 
 function closeOverlay () {
@@ -317,10 +356,10 @@ function closeOverlay () {
 //variable for amount of stars left.
 function howManyStars () {
 	if (Number(movesMade.innerText) < 10) {
-		return "3 star"
+		return "3 stars"
 	} 
 	if (Number(movesMade.innerText) >9 && Number(movesMade.innerText) < 19 ) {
-		return "2 star"
+		return "2 stars"
 	} 
 	if (Number(movesMade.innerText) >18  && Number(movesMade.innerText) < 26) {
 		return "1 star"
