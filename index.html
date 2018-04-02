@@ -13,29 +13,40 @@
 
     <div class="container">
         <header>
-            <h2>Matching Game</h2>
-        </header>
 
-        <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="fa fa-star" id="star-one"></i></li>
-        		<li><i class="fa fa-star" id="star-two"></i></li>
-        		<li><i class="fa fa-star" id="star-three"></i></li>
-        	</ul>
-
-        	<span class="moves">0</span> Moves
-            <div>
-                <span>Timer</span>
-                <h1><time>00:00:00</time></h1>
+            <div class="header-inner">
+                <h2>Matching Game</h2>
             </div>
-            
+        </header>
+        
+            <section class="panel">
 
-            <div class="restart" onclick="restartGame()">
-        		<i class="fa fa-repeat"></i>
-        	</div>
+                    <div class="score-panel">
+                    	<ul class="stars">
+                    		<li><i class="fa fa-star" id="star-one"></i></li>
+                    		<li><i class="fa fa-star" id="star-two"></i></li>
+                    		<li><i class="fa fa-star" id="star-three"></i></li>
+                            <span class="moves">0</span>
+                            <span> Moves</span>
+                    	</ul>
+                    	
+                    </div>
 
-        </section>
+                    <div class="timer">
+                        <span>Timer</span>
+                        <h1><time>00:00:00</time></h1>
+                    </div>
+                
 
+                    <div class="restart" onclick="restartGame()">
+                    	<i class="fa fa-repeat"></i>
+                        <span> Restart</span>
+                    </div>
+
+            </section>
+
+    </div>
+    <div class="container">
         <ul class="deck">
             <li class="card" type="diamond">
                 <i class="fa fa-diamond"></i>
@@ -95,7 +106,6 @@
               <button><a href="#" onclick="restartGame()">Close</a></button>
          </div>
     </div>
-    <a href='#' onclick='overlay()'>Click here to show the overlay</a>
     <script src="js/app.js"></script>
 </body>
 </html>

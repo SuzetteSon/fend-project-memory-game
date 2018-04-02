@@ -1,4 +1,6 @@
-html {
+html,
+section,
+div {
     box-sizing: border-box;
 }
 
@@ -9,11 +11,18 @@ html {
 }
 
 html,
-body {
+body,
+header,
+section,
+h1 {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 23px;
+    text-align: center;
 }
 
 body {
@@ -28,10 +37,6 @@ body {
     flex-direction: column;
 }
 
-h1 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
-}
 
 /*
  * Styles for the deck of cards
@@ -93,10 +98,11 @@ h1 {
  * Styles for the Score Panel
  */
 
-.score-panel {
-    text-align: left;
-    width: 345px;
-    margin-bottom: 10px;
+.panel {
+    text-align: center;
+    width: 500px;
+    margin-bottom: 40px;
+
 }
 
 .score-panel .stars {
@@ -111,13 +117,20 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .restart {
-    float: right;
+.restart {
+    display: inline-block;
+
     cursor: pointer;
+    min-width: 48px;
+    min-height: 48px;
 }
 
 .score-panel .stars li .none {
     display: none;
+}
+
+.timer {
+    padding: 20px;
 }
 
 /*
@@ -143,3 +156,46 @@ h1 {
     padding:15px;
     text-align:center;
 }
+
+/*
+ * Resposiveness
+ */
+
+ @media screen and (min-width: 360px) {
+    .container {
+        width: 100%;
+        display: flex;
+    }
+    .deck {
+        width: 70%;
+    }
+
+    html,
+    body,
+    header,
+    section,
+    h1 {
+        font-size: 40px;
+    }
+
+ }
+
+ @media screen and (min-width: 768px) {
+    .deck {
+        width: 70%;
+    }
+ }
+
+ @media screen and (min-width: 850px) {
+    .deck {
+        width: 660px;
+    }
+
+    html,
+    body,
+    header,
+    section,
+    h1 {
+        font-size: 30px;
+    }
+ }
