@@ -1,20 +1,9 @@
 # Memory Game Project
 
-## Table of Contents
-
-* [Instructions](#instructions)
-* [Contributing](#contributing)
-
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Player needs to click on the closed cards and as they get revealed and find matches. Player tries to do this in as little clicks as possible. Player gets rated on a star rating, less than 20 moves is a three star rating (best rating), between 20 and 30, a two star rating, and more than 29, only one star.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## About
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+This is project P3-Memory Game. For this project I needed to create a memory game using javascript, css and html.
