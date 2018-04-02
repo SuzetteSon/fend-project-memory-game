@@ -27,7 +27,8 @@ p {
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: #ffffff url('../img/geometry2.png');
+    /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
 }
 
@@ -57,16 +58,6 @@ body {
     margin: 0 0 3em;
 }
 
-@keyframes matchAnim {
-    0% {
-        background: #bcffcc;
-    }
-    100% {
-        background: white;
-    }
-}
-
-
 .deck .card {
     height: 125px;
     width: 125px;
@@ -79,7 +70,10 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
 
+.deck .card.disable {
+    pointer-events: none;
 }
 
 .deck .card.open {
@@ -95,18 +89,23 @@ body {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    animation-name: itsAMatch;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    animation-duration: .75s;
 }
+
 .deck .card.wrong {
     background-color: #dc143c;
     cursor: default;
     transform-style: preserve-3d;
     transition: .4s ease-in-out;
-    animation-name: pulse;
+    animation-name: itsNotAMatch;
     -webkit-backface-visibility: visible !important;
     backface-visibility: visible !important;
     animation-duration: .75s;
-
 }
+
 .deck .card.closed {
     height: 125px;
     width: 125px;
@@ -121,7 +120,6 @@ body {
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     transform-style: preserve-3d;
     transition: .4s ease-in-out;
-
 }
 
 
@@ -133,7 +131,6 @@ body {
     text-align: center;
     width: 500px;
     margin-bottom: 40px;
-
 }
 
 .score-panel .stars {
@@ -150,7 +147,6 @@ body {
 
 .restart {
     display: inline-block;
-
     cursor: pointer;
     min-width: 48px;
     min-height: 48px;
@@ -164,6 +160,7 @@ body {
     padding: 20px;
 }
 
+
 /*
  * Styles for modal
  */
@@ -173,19 +170,19 @@ body {
     position: absolute;
     left: 0px;
     top: 0px;
-    width:100%;
-    height:100%;
-    text-align:center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
     z-index: 1000;
 }
 
 #overlay div {
-    width:300px;
+    width: 300px;
     margin: 100px auto;
     background-color: #02ccba;
-    border:1px solid #000;
-    padding:15px;
-    text-align:center;
+    border: 1px solid #000;
+    padding: 15px;
+    text-align: center;
 }
 
 button {
@@ -198,18 +195,20 @@ button {
     display: inline-block;
     font-size: 20px;
     border-radius: 4px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 a {
     text-decoration: none;
     color: black;
 }
+
+
 /*
  * Resposiveness
  */
 
- @media screen and (min-width: 360px) {
+@media screen and (min-width: 360px) {
     .container {
         width: 100%;
         display: flex;
@@ -217,7 +216,6 @@ a {
     .deck {
         width: 70%;
     }
-
     html,
     body,
     header,
@@ -225,20 +223,18 @@ a {
     h1 {
         font-size: 40px;
     }
+}
 
- }
-
- @media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {
     .deck {
         width: 70%;
     }
- }
+}
 
- @media screen and (min-width: 850px) {
+@media screen and (min-width: 850px) {
     .deck {
         width: 660px;
     }
-
     html,
     body,
     header,
@@ -246,61 +242,45 @@ a {
     h1 {
         font-size: 30px;
     }
- }
+}
 
- /* animations */
-@keyframes flipInY {
-from {
-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
-animation-timing-function: ease-in;
-opacity: 0;
+
+/* 
+  * animations
+  */
+
+@keyframes itsNotAMatch {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
 }
-40% {
-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
-animation-timing-function: ease-in;
-}
-60% {
-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
-opacity: 1;
-}
-80% {
-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
-}
-to {
-transform: perspective(400px);
-}
-}
-@keyframes rubberBand {
-from {
-transform: scale3d(1, 1, 1);
-}
-30% {
-transform: scale3d(1.25, 0.75, 1);
-}
-40% {
-transform: scale3d(0.75, 1.25, 1);
-}
-50% {
-transform: scale3d(1.15, 0.85, 1);
-}
-65% {
-transform: scale3d(.95, 1.05, 1);
-}
-75% {
-transform: scale3d(1.05, .95, 1);
-}
-to {
-transform: scale3d(1, 1, 1);
-}
-}
-@keyframes pulse {
-from {
-transform: scale3d(1, 1, 1);
-}
-50% {
-transform: scale3d(1.2, 1.2, 1.2);
-}
-to {
-transform: scale3d(1, 1, 1);
-}
+
+@keyframes itsAMatch {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        transform: scale3d(1.2, 1.2, 1.2);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
 }
